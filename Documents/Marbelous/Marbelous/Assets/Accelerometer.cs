@@ -6,8 +6,8 @@ public class Accelerometer : MonoBehaviour {
     private Rigidbody rigid;
     public bool isFlat = true;
     public bool reverseAxis = false;
-    public float acceleration = (float)50;
-    public float maxSpeed = 6;
+    public float acceleration = (float)15;
+    public float maxSpeed = 50;
     public float slowDownSpeed = (float)0.9;
     public float startingSpeed = (float)5;
 	// Use this for initialization
@@ -37,27 +37,19 @@ public class Accelerometer : MonoBehaviour {
             
             //normalize the direction
             direction.Normalize();
-            //magnitude of the velocity vector
-            float currentSpeed = rigid.velocity.sqrMagnitude;
-            float targetSpeed = (float)0.0;
-            if (currentSpeed < startingSpeed)
-            {
-                targetSpeed = startingSpeed;
-            }
-            else
-            {
-                //magnitude of the velocity vector times the acceleration
-                targetSpeed = currentSpeed * acceleration;
-                
-            }
 
             //direction and magnitude of the marble
-            direction = Vector3.ClampMagnitude(direction * targetSpeed, maxSpeed);
-            //make the marble move
+            direction *= acceleration;
             direction.y = rigid.velocity.y;
-            //Debug.Log(direction + " : " + targetSpeed);
+            Debug.Log(direction);
+
+            //add force to the marble
             rigid.AddForce(direction);
-            
+            //Cap at top speed
+            if(rigid.velocity.magnitude > maxSpeed)
+            {
+                rigid.velocity = rigid.velocity.normalized * maxSpeed;
+            }
             Debug.DrawRay(transform.position + Vector3.up, direction, Color.blue);
     
         } else {
