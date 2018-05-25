@@ -1,4 +1,0 @@
-sceneSetups:
-- path: C:/Users/Lucas Hackman/Documents/Marbelous/Marbelous/Assets/scene2.unity
-  isLoaded: 1
-  isActive: 1
